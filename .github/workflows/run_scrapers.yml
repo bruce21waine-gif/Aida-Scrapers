@@ -1,0 +1,35 @@
+name: Esegui Scrapers Giornalieri
+
+on:
+  schedule:
+    # Esegue ogni giorno alle 3:00 del mattino (orario UTC)
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    # Aggiunge un pulsante "Run workflow" per avviare manualmente l'azione
+
+jobs:
+  run-scrapers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v3
+
+      - name: Setup di Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Installazione delle dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Esegui Scraper INPS
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scraper_inps.py
+
+      - name: Esegui Scraper Regione Puglia
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python scraper_puglia.py
