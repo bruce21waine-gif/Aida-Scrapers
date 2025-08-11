@@ -1,4 +1,4 @@
-name: Esegui Scrapers Giornalieri
+name: Esegui Scraper Giornaliero INPS
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
     # Aggiunge un pulsante "Run workflow" per avviare manualmente l'azione
 
 jobs:
-  run-scrapers:
+  run-scraper:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del codice
@@ -27,9 +27,4 @@ jobs:
       - name: Esegui Scraper INPS
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scraper_inps.py
-
-      - name: Esegui Scraper Regione Puglia
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: python scraper_puglia.py
+        run: python scraper_inps_intelligent.py
